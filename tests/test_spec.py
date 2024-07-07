@@ -149,7 +149,7 @@ class TestAuth(unittest.TestCase):
             self.assertEqual(response.status_code, 422)
             response_data = response.get_json()
             self.assertIn('errors', response_data)
-            self.assertIn(field, response_data['errors'][0])
+            self.assertIn(field, response_data['errors'][0]['message'])
 
     def test_register_duplicate_email(self):
         data = {
