@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "add_user_to_organisation.json", 
+  "type": "object",
+
+  "properties": {
+    "userId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The ID of the user to add to the organisation."
+    }
+  }, 
+
+  "additionalProperties": false,
+  "required": ["userId"]
+}

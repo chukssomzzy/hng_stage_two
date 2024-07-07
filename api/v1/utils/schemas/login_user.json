@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "login_user.json",
+  "type": "object",
+
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email", 
+      "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+    },
+    "password": {
+      "type": "string",
+      "format": "password",
+      "minLength": 8,
+      "maxLength": 255
+    }
+  },
+  "additionalProperties": false,
+  "required":  ["email", "password"]
+} 
