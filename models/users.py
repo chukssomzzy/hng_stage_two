@@ -23,7 +23,7 @@ class User(Base):
     first_name: Mapped[str] = mapped_column(String(255))
     last_name: Mapped[str] = mapped_column(String(255))
     email: Mapped[str] = mapped_column(String(255), unique=True)
-    _password_hash: Mapped[bytes] = mapped_column(String(255))
+    _password_hash: Mapped[str] = mapped_column(String(255))
     phone: Mapped[Optional[str]] = mapped_column(String(255))
     organisations: Mapped[List["Organisation"]] = relationship(
         secondary=users_organisations,
@@ -62,10 +62,10 @@ class User(Base):
         """Get the value of password"""
         raise NotImplementedError("Password is not readable on user object")
 
-    def set_password(self, password) -> None:
+    def set_password(self, password: str) -> None:
         """Set the password value on an object"""
         self._password_hash = bcrypt.hashpw(
-            bytes(password, "utf-8"), bcrypt.gensalt())
+            password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
     def to_dict(self) -> Dict:
         """Create a serializable user object"""

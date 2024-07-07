@@ -110,7 +110,8 @@ def add_user_to_organisation(org_id: str) -> Response:
         return make_response(resp, HTTPStatus.OK)
     except IntegrityError:
         raise InvalidApiUsage("Client Error", status_msg="Bad Request")
-    except (KeyError, Exception):
+    except (KeyError, Exception) as e:
+        print(e)
         raise InvalidApiUsage(
             "Server Error",
             status_msg="Internal Server Error",

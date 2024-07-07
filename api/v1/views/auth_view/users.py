@@ -49,7 +49,11 @@ def login_user() -> Response:
     """Login a user"""
     try:
         user_data = request.get_json()
-        user = engine.filter("User", email=user_data["email"])[0]
+        user = engine.filter("User", email=user_data["email"])
+        if len(user) == 1:
+            user = user[0]
+        else:
+            raise InvalidApiUsage("Authentication failed")
         accessToken = ""
         if (isinstance(user, User) and
                 user.check_password(user_data["password"])):
@@ -75,7 +79,7 @@ def login_user() -> Response:
         )
 
 
-@auth_view.route("/users/<uuid:id>", strict_slashes=False)
+@auth_view.route("/users/<string:id>", strict_slashes=False)
 @jwt_required()
 def get_user(id) -> Response:
     """a user gets their own record or user record in

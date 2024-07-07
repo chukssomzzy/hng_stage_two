@@ -28,10 +28,18 @@ class DBStorage:
         db_user = getenv("DB_USER")
         db_password = getenv("DB_PASS")
         db_host = getenv("DB_HOST")
+        db_api = getenv("DB_API")
+        db_dilect = getenv("DB_DIALECT")
 
         self.__engine = create_engine(
-            "mysql+mysqldb://{}:{}@{}/{}".
-            format(db_user, db_password, db_host, db_name), pool_pre_ping=True)
+            "{}+{}://{}:{}@{}/{}".
+            format(
+                db_dilect,
+                db_api,
+                db_user,
+                db_password,
+                db_host,
+                db_name), pool_pre_ping=True)
         if getenv("ENVIRONMENT") == "TEST":
             Base.metadata.drop_all(self.__engine)
 
