@@ -40,11 +40,11 @@ class DBStorage:
                 db_password,
                 db_host,
                 db_name), pool_pre_ping=True)
-        if getenv("ENVIRONMENT") == "TEST":
-            Base.metadata.drop_all(self.__engine)
 
     def reload(self) -> None:
         """Reload and allocate a scoped session"""
+        if getenv("ENVIRONMENT") == "TEST" and self.__engine:
+            Base.metadata.drop_all(self.__engine)
         if self.__engine:
             Base.metadata.create_all(self.__engine)
             session_factory = sessionmaker(

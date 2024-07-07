@@ -53,7 +53,7 @@ def login_user() -> Response:
         if len(user) == 1:
             user = user[0]
         else:
-            raise InvalidApiUsage("Authentication failed")
+            raise InvalidApiUsage("Client error")
         accessToken = ""
         if (isinstance(user, User) and
                 user.check_password(user_data["password"])):

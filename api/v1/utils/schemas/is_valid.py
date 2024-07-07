@@ -1,8 +1,8 @@
 #!/venv/bin/python3
 
 """Decorator to validate a schema with a request object"""
+import re
 from flask import request
-
 from functools import wraps
 from jsonschema import Draft202012Validator
 from api.v1.utils.error_handles.validation_error import ValidationError
@@ -18,17 +18,26 @@ def isvalid(uri_ref):
         def wrapper_function(*args, **kwargs):
             body = request.get_json()
             v = Draft202012Validator({
-                "type": "object",
-                "additionalProperties": {"$ref": f"{uri_ref}"}
+                "$ref": uri_ref
             },
                 registry=registry,
             )
-            errors = sorted(v.iter_errors({"instance": body}), key=str)
-            validation_errors = {}
+            errors = sorted(v.iter_errors(body), key=lambda e: e.path)
+
             if errors:
-                for i, error in enumerate(errors):
-                    validation_errors[str(i)] = error.message
-                raise ValidationError(payload=validation_errors)
+                error_list = []
+                for error in errors:
+                    m = re.search(r"(\'.*\')", error.message)
+                    field = "general"
+                    if m:
+                        field = m.group().replace("'", "")
+                    error_list.append({
+                        "field": field,
+                        "message": error.message
+                    })
+
+                raise ValidationError(payload=error_list)
+
             return f(*args, **kwargs)
         return wrapper_function
     return decorator_isvalid

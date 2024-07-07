@@ -38,13 +38,16 @@ def get_organisation_by_id(org_id: str) -> Response:
     """the logged in user gets a single organisation record [PROTECTED]
     Successful response
     """
-    organisation = engine.get("Organisation", org_id)
+    user = get_current_user()
+    org = engine.get("Organisation", org_id)
     resp = None
-    if isinstance(organisation, Organisation):
+    if org not in user.organisations:
+        raise InvalidApiUsage("Client Error", status_msg="Bad Request")
+    if isinstance(org, Organisation):
         resp = {
             "status": "success",
             "message": "organisation",
-            "data": organisation.to_dict()
+            "data": org.to_dict()
         }
     else:
         raise InvalidApiUsage("Client Error", status_msg="Bad Request")
