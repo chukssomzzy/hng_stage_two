@@ -27,7 +27,7 @@ def isvalid(uri_ref):
             if errors:
                 error_list = []
                 for error in errors:
-                    m = re.search(r"(\'.*\')", error.message)
+                    m = re.search(r"(\'[a-zA-Z]*?\')", error.message)
                     field = "general"
                     if m:
                         field = m.group().replace("'", "")
