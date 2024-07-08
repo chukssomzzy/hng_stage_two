@@ -8,7 +8,8 @@ from os import getenv
 load_dotenv()
 engine = None
 
-if getenv("DB_TYPE") == "MYSQL_DB":
+sup_dbs = ["PG_SQL", "MYSQL_DB"]
+if getenv("DB_TYPE") in sup_dbs:
     from models.engine.db_storage import DBStorage
     engine = DBStorage()
     engine.reload()
