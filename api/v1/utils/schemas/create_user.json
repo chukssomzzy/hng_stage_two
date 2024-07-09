@@ -16,8 +16,7 @@
     },
     "email": {
       "type": "string",
-      "format": "email", 
-      "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+      "format": "email" 
     },
     "password": {
       "type": "string",
@@ -26,10 +25,7 @@
       "maxLength": 255
     }, 
     "phone": {
-      "type": "string",
-      "minLength": 7, 
-      "maxLength": 15,
-      "pattern": "^\\+?[1-9]\\d{1,14}$"
+      "type": "string"
     }
   },
   "additionalProperties": false,
