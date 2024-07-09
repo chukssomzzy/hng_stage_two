@@ -38,6 +38,8 @@ class User(Base):
         """Initializes user object"""
         if kwargs and "password" in kwargs:
             kwargs.pop("password")
+        if "phone" not in kwargs:
+            kwargs["phone"] = None
 
         super().__init__(*args, **kwargs)
 
