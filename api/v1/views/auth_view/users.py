@@ -30,7 +30,7 @@ def register_user() -> Response:
         resp = {
             "status": "success",
             "message": "Registration successful",
-            "data": {"accessToken": access_token, **new_user.to_dict()}
+            "data": {"accessToken": access_token, "user": { **new_user.to_dict() }}
         }
         users_org = Organisation()
         users_org.set_name(new_user.first_name)
