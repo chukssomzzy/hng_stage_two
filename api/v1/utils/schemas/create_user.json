@@ -30,4 +30,4 @@
   },
   "additionalProperties": false,
   "required":  ["firstName", "lastName", "email", "password"]
-}
+}                                 
