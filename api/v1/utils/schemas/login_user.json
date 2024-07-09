@@ -7,12 +7,10 @@
     "email": {
       "type": "string",
       "format": "email", 
-      "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
     },
     "password": {
       "type": "string",
       "format": "password",
-      "minLength": 8,
       "maxLength": 255
     }
   },
