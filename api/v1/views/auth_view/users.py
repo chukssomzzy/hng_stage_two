@@ -30,7 +30,10 @@ def register_user() -> Response:
         resp = {
             "status": "success",
             "message": "Registration successful",
-            "data": {"accessToken": access_token, "user": { **new_user.to_dict() }}
+            "data": {
+                "accessToken": access_token,
+                "user": {**new_user.to_dict()}
+            }
         }
         users_org = Organisation()
         users_org.set_name(new_user.first_name)
@@ -54,10 +57,10 @@ def login_user() -> Response:
             user = user[0]
         else:
             raise InvalidApiUsage("Client error")
-        accessToken = ""
+        access_token = ""
         if (isinstance(user, User) and
                 user.check_password(user_data["password"])):
-            accessToken = create_access_token(identity=user)
+            access_token = create_access_token(identity=user)
         else:
             raise InvalidApiUsage(
                 "Authentication failed",
@@ -67,7 +70,10 @@ def login_user() -> Response:
         resp = {
             "status": "success",
             "message": "Login successful",
-            "data": {"accessToken": accessToken, **user.to_dict()}
+            "data": {
+                "accessToken": access_token,
+                "user": {**user.to_dict()}
+            }
         }
 
         return make_response(resp, HTTPStatus.OK)

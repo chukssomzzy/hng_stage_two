@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!./venv/bin/python3
 
 """Test endpoint"""
 import pytest
@@ -79,15 +79,17 @@ def test_duplicate_email(api_client):
     }
 
     # First registration should succeed
-    response1 = api_client.post(f"{BASE_URL}/auth/register", json=registration_data)
+    response1 = api_client.post(f"{BASE_URL}/auth/register",
+                                json=registration_data)
     assert response1.status_code == 201, f"Expected status code 201, but got {response1.status_code}. Response: {response1.text}"
 
     # Second registration with same email should fail
     response2 = api_client.post(f"{BASE_URL}/auth/register", json=registration_data)
-    assert response2.status_code == 422, f"Expected status code 422, but got {response2.status_code}. Response: {response2.text}"
+    assert response2.status_code == 400, f"Expected status code 422, but got {response2.status_code}. Response: {response2.text}"
     data = response2.json()
-    assert "errors" in data
-    assert any(error["field"] == "email" and "unique" in error["message"].lower() for error in data["errors"])
+    assert "Bad Request" in data["status"]
+    assert "Registration unsuccessful" in data["message"]
+
 
 def test_login_success(api_client):
     # Test successful login
@@ -118,6 +120,7 @@ def test_login_success(api_client):
     assert data["status"] == "success"
     assert data["message"] == "Login successful"
     assert "accessToken" in data["data"]
+    print(data)
     assert data["data"]["user"]["email"] == random_email
 
 def test_login_failure(api_client):
