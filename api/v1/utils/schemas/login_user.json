@@ -5,13 +5,10 @@
 
   "properties": {
     "email": {
-      "type": "string",
-      "format": "email", 
+      "type": "string"
     },
     "password": {
-      "type": "string",
-      "format": "password",
-      "maxLength": 255
+      "type": "string"
     }
   },
   "additionalProperties": false,

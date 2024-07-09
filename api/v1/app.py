@@ -83,5 +83,5 @@ if __name__ == '__main__':
     app_port = int(getenv('APP_PORT', 5000))
     app_host = str(getenv('APP_HOST', '0.0.0.0'))
     app_debug = bool(getenv('APP_DEBUG', False))
-    print(app_host)
+    print(app_port, app_host)
     app.run(port=app_port, host=app_host, debug=app_debug)
