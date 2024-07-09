@@ -20,16 +20,16 @@ class Base(DeclarativeBase):
         primary_key=True,
         default=uuid4
     )
-    created_at: Mapped[datetime] = mapped_column(nullable=False,
-                                                 default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(nullable=False,
-                                                 default=datetime.utcnow)
-    __table_args__ = (
-        Index("i_created_at", "created_at"),
-        Index("i_updated_at", "updated_at"),
-        Index("i_id_created_updated", "id", "created_at", "updated_at",
-              unique=True),
-    )
+    # created_at: Mapped[datetime] = mapped_column(nullable=False,
+    #                                              default=datetime.utcnow)
+    # updated_at: Mapped[datetime] = mapped_column(nullable=False,
+    #                                              default=datetime.utcnow)
+    # __table_args__ = (
+    #     Index("i_created_at", "created_at"),
+    #     Index("i_updated_at", "updated_at"),
+    #     Index("i_id_created_updated", "id", "created_at", "updated_at",
+    #           unique=True),
+    # )
 
     def __init__(self, *args, **kwargs) -> None:
         """Initializes the base class from kwargs"""
