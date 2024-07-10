@@ -83,18 +83,3 @@ def login_user() -> Response:
             status_code=401,
             status_msg="Bad request"
         )
-
-
-@auth_view.route("/users/<string:id>", strict_slashes=False)
-@jwt_required()
-def get_user(id) -> Response:
-    """a user gets their own record or user record in
-    organisations they belong to or created [PROTECTED]
-    """
-    user = get_current_user()
-    resp = {
-        "status": "success",
-        "message": "you",
-        "data": user.to_dict()
-    }
-    return make_response(resp, HTTPStatus.OK)

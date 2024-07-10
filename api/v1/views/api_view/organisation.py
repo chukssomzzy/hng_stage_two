@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from http import HTTPStatus
+from typing import Optional
 
 from flask import Response, make_response, request
 from flask_jwt_extended import get_current_user, jwt_required
@@ -120,3 +121,34 @@ def add_user_to_organisation(org_id: str) -> Response:
             status_msg="Internal Server Error",
             status_code=500
         )
+
+
+@api_view.route("/users/<string:id>", strict_slashes=False)
+@jwt_required()
+def get_user(id) -> Response:
+    """a user gets their own record or user record in
+    organisations they belong to or created [PROTECTED]
+    """
+    try:
+        user = get_current_user()
+        org_user = engine.get("User", id)
+
+        if not org_user:
+            raise InvalidApiUsage("Client Error")
+
+        user_info: Optional[User] = None
+        for org in user.organisations:
+            if org_user in org.users and isinstance(org_user, User):
+                user_info = org_user
+        resp = {}
+        if isinstance(user_info, User):
+            resp = {
+                "status": "success",
+                "message": "you",
+                "data": user_info.to_dict()
+            }
+        if not len(resp):
+            raise InvalidApiUsage("Client Error")
+        return make_response(resp, HTTPStatus.OK)
+    except InvalidApiUsage:
+        raise InvalidApiUsage("Client Error", status_msg="Bad Request")
