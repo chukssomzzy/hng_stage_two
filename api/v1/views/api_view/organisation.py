@@ -140,6 +140,7 @@ def get_user(id) -> Response:
         for org in user.organisations:
             if org_user in org.users and isinstance(org_user, User):
                 user_info = org_user
+                break
         resp = {}
         if isinstance(user_info, User):
             resp = {
