@@ -23,13 +23,33 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 jwt = JWTManager(app)
 
 
+@jwt.unauthorized_loader
+def unauthorized_token(expired_token):
+    """Handle unauthorized access"""
+    return {
+        "status": "Bad request",
+        "message": "Authentication failed",
+        "statusCode": 401
+    }, 401
+
+
+@jwt.expired_token_loader
+def expired_token(expired_token):
+    """Handle unauthorized access"""
+    return {
+        "status": "Bad request",
+        "message": "Authentication failed",
+        "statusCode": 401
+    }, 401
+
+
 @jwt.user_identity_loader
 def user_identity_lookup(user):
     """Takes what passed to create jwt identity and
     return a seriliazabe version that can be used to lookup
-    the user
-    Args:
-        User: sqlalchemy obj of user
+the user
+Args:
+    User: sqlalchemy obj of user
     Returns:
         user's id
     """
