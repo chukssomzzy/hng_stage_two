@@ -26,7 +26,7 @@ class Organisation(Base):
 
     def set_name(self, name):
         """Set organisation name"""
-        self.name = f"{name}'s organisation"
+        self.name = f"{name}'s Organisation"
 
     def to_dict(self) -> Dict[str, Any]:
         """return a json serialiable dict"""
